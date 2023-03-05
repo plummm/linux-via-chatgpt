@@ -14,11 +14,27 @@ export class ChatGptProvider implements IChatGptProvider {
         this.context = context;
     }
 
+	isApiReady(): boolean {
+		return this.openaiApi != null;
+	}
+
 	isChatGptReady(): boolean {
 		if (this.openaiApi == null) {
 			const workspaceConfig = vscode.workspace.getConfiguration("linux-via-chatgpt");
 			const key = workspaceConfig.get("apiKey", "");
-			return key != "";
+			this.context.secrets.store("apiKey", key);
+			try {
+				const configuration = new Configuration({
+					apiKey: key,
+				  });
+				this.openaiApi = new OpenAIApi(configuration);
+                vscode.window.showInformationMessage("linux-via-ChatGPT is ready to use");
+				this.sendMessage("Hi");
+				return true;
+			} catch (error: any) {
+				vscode.window.showErrorMessage("Failed to instantiate the ChatGPT API.", error?.message);
+				return false;
+			}
 		}
 		return true;
 	}
@@ -59,11 +75,11 @@ export class ChatGptProvider implements IChatGptProvider {
 	
 	async sendMessage(message: string): Promise<string> {
 		try {
-			const response = await this.openaiApi?.createChatCompletion({
+			const response = await this.openaiApi!.createChatCompletion({
 				messages: [{"role": "system", "content": message}],
 				model: "gpt-3.5-turbo"
 			});
-			return response?.data.choices[0]['message']!['content'] ?? "";
+			return response!.data.choices[0]['message']!['content'] ?? "";
 		} catch (error: any) {
 			vscode.window.showErrorMessage("Failed to send the query, check the internet connection and API key.", error?.message);
 			return "";
