@@ -19,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const workspaceConfig = vscode.workspace.getConfiguration("linux-via-chatgpt");
 			workspaceConfig.update("apiKey", apiKey, false);
 			context.secrets.store("apiKey", apiKey);
-			provider.prepareConversation(false);
+			provider.prepareConversation(true);
 		}
 	});
 

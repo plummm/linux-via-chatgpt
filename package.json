@@ -2,7 +2,7 @@
   "name": "linux-via-chatgpt",
   "displayName": "linux-via-ChatGPT",
   "description": "A ChatGPT extension for analyzing Linux kernel source code",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/plummm/linux-via-chatgpt.git"},
