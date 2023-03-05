@@ -2,7 +2,10 @@
   "name": "linux-via-chatgpt",
   "displayName": "linux-via-ChatGPT",
   "description": "A ChatGPT extension for analyzing Linux kernel source code",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/plummm/linux-via-chatgpt.git"},
   "engines": {
     "vscode": "^1.76.0"
   },
@@ -37,7 +40,7 @@
       "properties": {
         "linux-via-chatgpt.apiKey": {
           "type": "string",
-          "default": "123",
+          "default": "",
           "description": "The prompt prefix used for adding tests for the selected code"
         }
       }

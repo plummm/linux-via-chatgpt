@@ -58,11 +58,16 @@ export class ChatGptProvider implements IChatGptProvider {
 	}
 	
 	async sendMessage(message: string): Promise<string> {
-		const response = await this.openaiApi?.createChatCompletion({
-			messages: [{"role": "system", "content": message}],
-			model: "gpt-3.5-turbo"
-		});
-		return response?.data.choices[0]['message']!['content'] ?? "";
+		try {
+			const response = await this.openaiApi?.createChatCompletion({
+				messages: [{"role": "system", "content": message}],
+				model: "gpt-3.5-turbo"
+			});
+			return response?.data.choices[0]['message']!['content'] ?? "";
+		} catch (error: any) {
+			vscode.window.showErrorMessage("Failed to send the query, check the internet connection and API key.", error?.message);
+			return "";
+		}
 	}
 
     async prepareConversation(reset?: boolean): Promise<boolean> {
@@ -81,8 +86,9 @@ export class ChatGptProvider implements IChatGptProvider {
 				  });
 				this.openaiApi = new OpenAIApi(configuration);
                 vscode.window.showInformationMessage("linux-via-ChatGPT is ready to use");
+				this.sendMessage("Hi");
 			} catch (error: any) {
-				vscode.window.showErrorMessage("Failed to instantiate the ChatGPT API. Try ChatGPT: Clear session", error?.message);
+				vscode.window.showErrorMessage("Failed to instantiate the ChatGPT API.", error?.message);
 				return false;
 			}
 		}
