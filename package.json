@@ -1,0 +1,78 @@
+{
+  "name": "linux-via-chatgpt",
+  "displayName": "linux-via-ChatGPT",
+  "description": "A ChatGPT extension for analyzing Linux kernel source code",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.76.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "publisher": "etenal",
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "linux-via-chatgpt.setup",
+        "title": "linux-via-chatgpt: Setup"
+      },
+      {
+        "command": "linux-via-chatgpt.explain",
+        "title": "linux-via-chatgpt: Explain"
+      }
+    ],
+    "menus": {
+			"editor/context": [
+				{
+					"command": "linux-via-chatgpt.explain",
+					"when": "editorTextFocus",
+					"group": "linux-via-chatgpt@1"
+				}
+			]
+		},
+    "configuration": {
+      "title": "linux-via-chatgpt",
+      "properties": {
+        "linux-via-chatgpt.apiKey": {
+          "type": "string",
+          "default": "123",
+          "description": "The prompt prefix used for adding tests for the selected code"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "linux-via-chatgpt.explain",
+        "key": "ctrl+shift+e",
+        "mac": "cmd+shift+e",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.76.0",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "@vscode/test-electron": "^2.2.3",
+    "eslint": "^8.34.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "openai": "^3.2.1"
+  }
+}
