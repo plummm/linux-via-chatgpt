@@ -81,6 +81,7 @@ export class ChatGptProvider implements IChatGptProvider {
 			});
 			return response!.data.choices[0]['message']!['content'] ?? "";
 		} catch (error: any) {
+			this.openaiApi = undefined;
 			vscode.window.showErrorMessage("Failed to send the query, check the internet connection and API key.", error?.message);
 			return "";
 		}

@@ -35,12 +35,12 @@ export function activate(context: vscode.ExtensionContext) {
 				vscode.window.showInformationMessage("ChatGPT is thinking");
 				if (editor.isElement()) {
 					const response = await provider.explainElement(codeSnippet, false);
-					if (response != null) {
+					if (response != '') {
 						editor.insertSelection(response, selection);
 					}
 				} else {
 					const response = await provider.explainCode(codeSnippet);
-					if (response != null) {
+					if (response != '') {
 						editor.replaceSelection(response, selection);
 					}
 				}
